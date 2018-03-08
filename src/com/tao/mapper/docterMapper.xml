@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tao.dao.DocterMapper">
+
+<!-- select语句 -->
+ <select id="getDocterList" resultType="DocterEntity">
+        select * from docter where Dname = #{Dname}
+    </select>
+
+ <select id="selectAllDocters" resultType="DocterEntity">
+        select * from docter
+    </select>
+
+    <select id="getDocterlist" resultType="java.lang.String" >
+        select Dname from docter GROUP BY Dname ORDER BY Dname
+    </select>
+
+  <select id="countAll" resultType="int">
+        select count(*) c from docter;
+    </select>
+
+    <!-- 定义的resultMap，可以解决类的属性名和数据库列名不一致的问题-->
+    <!-- <resultMap type="Docter" id="docterResultMap">
+        <id property="Did" column="docter_Did"  />
+        <result property="Dname" column="docter_Dname"  />
+        <result property="Sex" column="docter_Sex"  />
+        <result property="Depart" column="docter_Depart" />
+         <result property="Dephone" column="docter_Dephone" />
+         <result property="Dlogname" column="docter_Dlogname" />
+         <result property="Dpword" column="docter_Dpword" />
+    </resultMap> -->
+
+    <!-- 返回list的select语句，注意 resultMap的值是指向前面定义好的 -->
+    <!-- <select id="selectDoctersByName" parameterType="string" resultMap="docterResultMap">
+        select * from docter where docter.Dname = #{Dname}
+    </select> -->
+    <select id="getDoctersByDname" parameterType="string" resultType="DocterEntity">
+        select * from docter where docter.Dname = #{Dname}
+</select>
+
+    <select id="getDoctersByDid" parameterType="int" resultType="DocterEntity">
+        select * from docter where docter.Did = #{Did}
+    </select>
+
+<!--执行增加操作的SQL语句。id和parameterType分别与IUserOperation接口中的addUser方法的名字和参数类型一致。
+useGeneratedKeys设置为"true"表明要MyBatis获取由数据库自动生成的主键；keyProperty="id"指定把获取到的主键值注入到User的id属性-->
+<insert id="addDocter" parameterType="DocterEntity"
+        useGeneratedKeys="true" keyProperty="Did">
+    insert into docter(Did,Dname,Sex,Depart,Dphone,Dlogname,Dpword)
+    values(#{Did},#{Dname},#{Sex},#{Depart},#{Dphone},#{Dlogname},#{Dpword})
+</insert>
+
+<update id="updateDocter" parameterType="DocterEntity" >
+    update docter set Dname=#{Dname},Sex=#{Sex},Depart=#{Depart},Dphone=#{Dphone},Dlogname=#{Dlogname},Dpword=#{Dpword} where Dname=#{Dname}
+</update>
+
+<delete id="deleteDocter" parameterType="DocterEntity">
+    delete from docter where Dname=#{Dname}
+</delete>
+
+</mapper>

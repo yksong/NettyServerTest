@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tao.dao.PatientMapper">
+
+    <!-- select语句 -->
+    <select id="getPatientList" resultType="PatientEntity">
+        select * from patient where Pname = #{Pname}
+    </select>
+
+    <select id="selectAllPatients" resultType="PatientEntity">
+        select * from patient
+    </select>
+
+    <select id="getPatientlist" resultType="java.lang.String" >
+        select Pname from patient GROUP BY Pname ORDER BY Pname
+    </select>
+
+    <!-- 定义的resultMap，可以解决类的属性名和数据库列名不一致的问题-->
+    <!-- <resultMap type="Patient" id="patientResultMap">
+        <id property="Pid" column="patient_Pid"  />
+        <result property="Pname" column="patient_Pname"  />
+        <result property="Sex" column="patient_Sex"  />
+        <result property="Age" column="patient_Age" />
+         <result property="Adress" column="patient_Adress" />
+          <result property="Phone" column="patient_Phone" />
+         <result property="Did" column="patient_Did" />
+         <result property="Heart" column="patient_Heart" />
+         <result property="Addition" column="patient_Addition" />
+         <result property="Logname" column="patient_Logname" />
+          <result property="Pword" column="patient_Pword" />
+    </resultMap> -->
+
+    <select id="getPatientsByPname" parameterType="string" resultType="PatientEntity">
+        select * from patient where patient.Pname = #{Pname}
+    </select>
+
+    <insert id="addPatient" parameterType="PatientEntity"
+            useGeneratedKeys="true" keyProperty="Pid">
+        insert into patient(Pid,Pname,Sex,Age,Adress,Phone,Did,Heart,Addition,Logname,Pword)
+        values(#{Pid},#{Pname},#{Sex},#{Age},#{Adress},#{Phone},#{Did},#{Heart},#{Addition},#{Logname},#{Pword})
+    </insert>
+
+    <update id="updatePatient" parameterType="PatientEntity" >
+        update patient set Pname=#{Pname},Sex=#{Sex},Age=#{Age},Adress=#{Adress},Phone=#{Phone},Did=#{Did},
+        Heart=#{Heart},Addition=#{Addition},Logname=#{Logname},Pword=#{Pword} where Pname=#{Pname}
+    </update>
+
+    <delete id="deletePatient" parameterType="PatientEntity">
+        delete from patient where Pname=#{Pname}
+    </delete>
+
+</mapper>
