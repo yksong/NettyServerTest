@@ -1,0 +1,3 @@
+# NettyServerTest
+心电健康监护系统服务器端
+使用了netty框架作为服务器端，protobuf作为通信协议
